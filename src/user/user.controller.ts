@@ -1,5 +1,5 @@
 
-import { Body, Controller, Get, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Query, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import CreateUserDto from './dto/create-user.dto';
 
@@ -8,7 +8,7 @@ export class UserController {
   constructor(private readonly usersServices: UserService) {}
 
 //'postUser()' will handle the creating of new User
-  @Post('post')
+  @Post()
   postUser( @Body() user: CreateUserDto) {
     return this.usersServices.insert(user);
   }
@@ -21,7 +21,7 @@ export class UserController {
 //'getBooks()' return all the books which are associated with the user 
 // provided through 'userID' by the request  
   @Get('books')
-  getBooks( @Body('userID', ParseIntPipe) userID: number ) {
-    return this.usersServices.getBooksOfUser(userID);
+  getBooks( @Query('userID') iUserID: number ) {
+    return this.usersServices.getBooksOfUser(iUserID);
   }
 }

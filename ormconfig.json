@@ -1,11 +1,10 @@
 {
-    "type": "sqlite",
-    "database": "./database.sqlite",
-    "synchronize": "true",
-    "entities": [
-      "./dist/db/*.js"
-    ],
-    "cli": {
-      "entitiesDir": "./db"
-    }
-  }
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "lab2",
+  "password": "lab2",
+  "database": "lab2",
+  "entities": ["dist/**/**.entity{.ts,.js}"],
+  "synchronize": true
+}
