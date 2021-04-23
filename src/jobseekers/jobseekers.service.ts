@@ -46,10 +46,22 @@ export class JobseekersService {
     async insertFreelancer(freelancer_details: CreateFreelancerDto): Promise<FreelancerEntity> {
 
       const freelancer_entity: FreelancerEntity = FreelancerEntity.create();
-      const { name, email, registry_type } = freelancer_details;
+      const { name,
+        email,
+        phone_number,
+        image_url,
+        experience,
+        skills,
+        score,
+        registry_type, } = freelancer_details;
       
       freelancer_entity.name = name;
       freelancer_entity.email = email;
+      freelancer_entity.phone_number = phone_number;
+      freelancer_entity.image_url = image_url;
+      freelancer_entity.experience = experience;
+      freelancer_entity.skills = skills;
+      freelancer_entity.score = 0;
       freelancer_entity.registry_type = registry_type;
 
       await FreelancerEntity.save(freelancer_entity);
@@ -68,45 +80,35 @@ export class JobseekersService {
       return await FreelancerEntity.update({id}, freelancerDetails);
     }
 
-    async insertOrder(freelancer_id: number, project_id: number): Promise<any> {
-
+    async insertOrder(freelancer_id: number, updated: CreateFreelancerDto): Promise<any> {
       const freelancer = await FreelancerEntity.findOne(freelancer_id);
+
+      const { name,
+        email,
+        phone_number,
+        image_url,
+        experience,
+        skills,
+        score,
+        registry_type, } = freelancer;
 
       let new_freelancer: any = {};
 
-      new_freelancer.name = freelancer.name;
-      new_freelancer.email = freelancer.email;
-      new_freelancer.registry_type = freelancer.registry_type;
+      new_freelancer.name = name;
+      new_freelancer.email = email;
+      new_freelancer.phone_number = phone_number;
+      new_freelancer.image_url = image_url;
+      new_freelancer.experience = experience;
+      new_freelancer.skills = skills;
+      new_freelancer.score = score;
+      new_freelancer.registry_type = registry_type;
 
-      let project = await ProjectEntity.findOne(project_id);
-      new_freelancer.orders = freelancer.orders;
-      new_freelancer.orders.push(project);
-
-      return FreelancerEntity.update(freelancer_id, new_freelancer);
-    }
-
-    async removeOrder(freelancer_id: number, project_id: number): Promise<any> {
-
-      const freelancer = await FreelancerEntity.findOne(freelancer_id);
-
-      let new_freelancer: any = {};
-
-      new_freelancer.name = freelancer.name;
-      new_freelancer.email = freelancer.email;
-      new_freelancer.registry_type = freelancer.registry_type;
-
-      new_freelancer.orders = freelancer.orders;
-      let project = await ProjectEntity.findOne(project_id);
-
-      for ( let i = 0; i < new_freelancer.orders.length ; i++)
+      new_freelancer.orders = [];
+      for ( let i = 0; i < updated.projectIDs.length ; i++)
       {
-          if (new_freelancer.orders[i].id == project_id)
-          {
-            new_freelancer.orders.pop(i);
-            break;
-          }
+        const project = await ProjectEntity.findOne(updated.projectIDs[i]);
+        new_freelancer.orders.push(project);
       }
-
       return FreelancerEntity.update(freelancer_id, new_freelancer);
     }
 
@@ -115,10 +117,12 @@ export class JobseekersService {
     async insertEmployer(employer_details: CreateEmployerDto): Promise<EmployerEntity> {
 
       const employer_entity: EmployerEntity = EmployerEntity.create();
-      const { name, email } = employer_details;
+      const { name, email, phone_number, image_url } = employer_details;
       
       employer_entity.name = name;
       employer_entity.email = email;
+      employer_entity.phone_number = phone_number;
+      employer_entity.image_url = image_url;
 
       await EmployerEntity.save(employer_entity);
       return employer_entity;

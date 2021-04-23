@@ -53,13 +53,8 @@ export class JobseekersController {
     }
 
     @Post('freelancer/:freelancer_id/order')
-    async insertOrder(@Param('freelancer_id') freelancer_id: number, @Query() project_id: number) {
-      return this.jobseekerServices.insertOrder(freelancer_id, project_id)
-    }
-
-    @Delete('freelancer/:freelancer_id/order')
-    async updateOrder(@Param('freelancer_id') freelancer_id: number, @Query() project_id: number) {
-      return this.jobseekerServices.removeOrder(freelancer_id, project_id)
+    async insertOrder(@Param('freelancer_id') freelancer_id: number, @Body() new_freelancer: CreateFreelancerDto) {
+      return this.jobseekerServices.insertOrder(freelancer_id, new_freelancer)
     }
 
     /////////////////////////////////////// Employer ///////////////////////////////////////
