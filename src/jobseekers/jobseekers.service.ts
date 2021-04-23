@@ -68,6 +68,48 @@ export class JobseekersService {
       return await FreelancerEntity.update({id}, freelancerDetails);
     }
 
+    async insertOrder(freelancer_id: number, project_id: number): Promise<any> {
+
+      const freelancer = await FreelancerEntity.findOne(freelancer_id);
+
+      let new_freelancer: any = {};
+
+      new_freelancer.name = freelancer.name;
+      new_freelancer.email = freelancer.email;
+      new_freelancer.registry_type = freelancer.registry_type;
+
+      let project = await ProjectEntity.findOne(project_id);
+      new_freelancer.orders = freelancer.orders;
+      new_freelancer.orders.push(project);
+
+      return FreelancerEntity.update(freelancer_id, new_freelancer);
+    }
+
+    async removeOrder(freelancer_id: number, project_id: number): Promise<any> {
+
+      const freelancer = await FreelancerEntity.findOne(freelancer_id);
+
+      let new_freelancer: any = {};
+
+      new_freelancer.name = freelancer.name;
+      new_freelancer.email = freelancer.email;
+      new_freelancer.registry_type = freelancer.registry_type;
+
+      new_freelancer.orders = freelancer.orders;
+      let project = await ProjectEntity.findOne(project_id);
+
+      for ( let i = 0; i < new_freelancer.orders.length ; i++)
+      {
+          if (new_freelancer.orders[i].id == project_id)
+          {
+            new_freelancer.orders.pop(i);
+            break;
+          }
+      }
+
+      return FreelancerEntity.update(freelancer_id, new_freelancer);
+    }
+
     /////////////////////////////////////// Employer ///////////////////////////////////////
 
     async insertEmployer(employer_details: CreateEmployerDto): Promise<EmployerEntity> {

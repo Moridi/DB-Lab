@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Delete, Put, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Put, Param, Query } from '@nestjs/common';
 import { JobseekersService } from './jobseekers.service';
 import CreateProjectDto from './dto/create-project.dto';
 import CreateFreelancerDto from './dto/create-freelancer.dto';
@@ -52,6 +52,15 @@ export class JobseekersController {
       return this.jobseekerServices.updateFreelancer(id, freelancer)
     }
 
+    @Post('freelancer/:freelancer_id/order')
+    async insertOrder(@Param('freelancer_id') freelancer_id: number, @Query() project_id: number) {
+      return this.jobseekerServices.insertOrder(freelancer_id, project_id)
+    }
+
+    @Delete('freelancer/:freelancer_id/order')
+    async updateOrder(@Param('freelancer_id') freelancer_id: number, @Query() project_id: number) {
+      return this.jobseekerServices.removeOrder(freelancer_id, project_id)
+    }
 
     /////////////////////////////////////// Employer ///////////////////////////////////////
 
