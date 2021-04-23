@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from 'typeorm';
+import EmployerEntity from './employer.entity';
 
 @Entity()
 export default class ProjectEntity extends BaseEntity {
@@ -20,4 +21,7 @@ export default class ProjectEntity extends BaseEntity {
 
   @Column({ length: 50 })
   min_experience: string;
+
+  @ManyToOne(type => EmployerEntity, employer => employer.projects)
+  employer: EmployerEntity;
 }

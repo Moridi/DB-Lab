@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import ProjectEntity from './project.entity';
 
 @Entity()
 export default class EmployerEntity extends BaseEntity {
@@ -17,4 +18,7 @@ export default class EmployerEntity extends BaseEntity {
 
   @Column({ length: 50 })
   image_url: string;
+
+  @OneToMany( type => ProjectEntity, project => project.employer)
+  projects: ProjectEntity[];
 }
