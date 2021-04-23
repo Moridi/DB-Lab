@@ -4,7 +4,7 @@
   "port": 5432,
   "username": "lab2",
   "password": "lab2",
-  "database": "lab2",
+  "database": "jobseekers",
   "entities": ["dist/**/**.entity{.ts,.js}"],
   "synchronize": true
 }
