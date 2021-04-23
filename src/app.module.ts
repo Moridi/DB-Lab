@@ -11,11 +11,12 @@ import { JobseekersModule } from './jobseekers/jobseekers.module';
 import UserEntity from '../db/user.entity';
 import BookEntity from '../db/book.entity';
 import GenreEntity from '../db/genre.entity';
+import ProjectEntity from '../db/project.entity';
 
 @Module({
   imports: [UserModule , BookModule, GenreModule,
   TypeOrmModule.forFeature(
-    [UserEntity, BookEntity , GenreEntity],
+    [UserEntity, BookEntity , GenreEntity, ProjectEntity],
     ),
     TypeOrmModule.forRoot(),
     JobseekersModule,
