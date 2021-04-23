@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToMany, JoinTable } from 'typeorm';
+import ProjectEntity from './project.entity';
 
 @Entity()
 export default class FreelancerEntity extends BaseEntity {
@@ -20,4 +21,17 @@ export default class FreelancerEntity extends BaseEntity {
 
   @Column({ length: 50 })
   experience: string;
+
+  @Column({ length: 50 })
+  skills: string;
+
+  @Column()
+  score: number;
+
+  @Column({ length: 50 })
+  registry_type: string;
+
+  @ManyToMany(type => ProjectEntity)
+  @JoinTable()
+  orders: ProjectEntity[];
 }
